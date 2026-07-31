@@ -1,76 +1,52 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 
 [RequireComponent(typeof(BoxCollider))]
 public class SpawnArea : MonoBehaviour
 {
-    private List<Vector3> _possibleSpawnPoints = new List<Vector3>();
-    private List<Vector3> _availableSpawnPoints = new List<Vector3>();
+    private const int PositionAvailable = 0;
+    private const int PositionTaken = 1;
     
+    private List<Vector3> _allSpawnPositions = new List<Vector3>();
+    private int[] _positionsStatus;
+    
+    private List<Vector3> _availableSpawnPoints;
+
+    private HashSet<int> _allPointsIndexes = new HashSet<int>();
+    private HashSet<int> _takenPointsIndexes = new HashSet<int>();
+
     private BoxCollider _boxCollider;
     private void Awake()
     {
         _boxCollider = GetComponent<BoxCollider>();
         
-        GetAllPossibleSpawnPoints();
+        GetAllSpawnPositions();
+        InitializePositionsStatus();
     }
-
-    public bool HasAvailableSpawnPoints()
-    {
-        UpdateAvailableSpawnPoints();
-
-        if (_availableSpawnPoints.Count == 0)
-            return false;
-
-        return true;
-    }
-
+    
     public bool TryGetPoint(out Vector3 spawnPoint)
     {
         spawnPoint = Vector3.zero;
-        UpdateAvailableSpawnPoints();
 
-        if (_availableSpawnPoints.Count == 0)
+        int[] availablePoints = GetAvailablePositionsIndexes();
+
+        if (availablePoints.Length == 0)
             return false;
 
-        int index = UtilsRandom.GetRandomNumber(0, _availableSpawnPoints.Count - 1);
-        spawnPoint = _availableSpawnPoints[index];
+        int randomIndex = UtilsRandom.GetRandomNumber(0, availablePoints.Length - 1);
+        int positionIndex = availablePoints[randomIndex];
+
+        spawnPoint = _allSpawnPositions[positionIndex];
+        _positionsStatus[positionIndex] = PositionTaken;
         
         return true;
     }
 
-    private void UpdateAvailableSpawnPoints()
-    {
-        RaycastHit[] hits;
-
-        _availableSpawnPoints.Clear();
-        
-        foreach (Vector3 spawnPoint in _possibleSpawnPoints)
-        {
-            bool spawnPointOccupied = false;
-            hits = Physics.RaycastAll(spawnPoint + new Vector3(0f, -0.5f, 0f), Vector3.up, 2f);
-
-            foreach (var hit in hits)
-            {
-                if (hit.collider.TryGetComponent(out Spawnable spawnable))
-                    spawnPointOccupied = true;
-            }
-            
-            if(spawnPointOccupied == false)
-                _availableSpawnPoints.Add(spawnPoint);
-        }
-
-        Debug.Log("Available points");
-        foreach (var point in _availableSpawnPoints)
-        {
-            Debug.Log(point);
-        }
-    }
-
-    private void GetAllPossibleSpawnPoints()
+    private void GetAllSpawnPositions()
     {
         float sizeX = Convert.ToInt32(_boxCollider.size.x);
         float sizeZ = Convert.ToInt32(_boxCollider.size.z);
@@ -85,8 +61,37 @@ public class SpawnArea : MonoBehaviour
                 Vector3 position = new Vector3( startPoint.x + i, startPoint.y, startPoint.z + j);
                 Vector3 spawnPoint = transform.TransformPoint(position);
 
-                _possibleSpawnPoints.Add(spawnPoint);
+                _allSpawnPositions.Add(spawnPoint);
             }
         }
+
+        for (int i = 0; i < _allSpawnPositions.Count; i++)
+        {
+            _allPointsIndexes.Add(i);
+        }
     }
+
+    private void InitializePositionsStatus()
+    {
+        _positionsStatus = new int[_allSpawnPositions.Count];
+
+        for (int index = 0; index < _allSpawnPositions.Count; index++)
+        {
+            _positionsStatus[index] = PositionAvailable;
+        }
+    }
+
+    private int[] GetAvailablePositionsIndexes()
+    {
+        List<int> availableIndexes = new List<int>();
+
+        for (int index = 0; index < _positionsStatus.Length; index++)
+        {
+            if(_positionsStatus[index] == PositionAvailable)
+                availableIndexes.Add(index);
+        }
+
+        return availableIndexes.ToArray();
+    }
+    
 }
