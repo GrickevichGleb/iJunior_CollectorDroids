@@ -7,7 +7,7 @@ public class Spawnable : MonoBehaviour
 {
     public event Action<Spawnable> RequestRelease; 
 
-    public void Reset()
+    public virtual void Reset()
     {
         
     }

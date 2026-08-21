@@ -33,13 +33,13 @@ public class Spawner<T> : MonoBehaviour where T : Spawnable
         ReleaseAll();
     }
 
-    protected virtual void ActionOnGet(Spawnable spawnable)
+    protected virtual void ActionOnGet(T mineral)
     {
-        spawnable.Reset();
-        spawnable.RequestRelease += OnRequestRelease;
+        mineral.Reset();
+        mineral.RequestRelease += OnRequestRelease;
         
-        ActiveObjects.Add((T)spawnable);
-        Spawned?.Invoke((T)spawnable);
+        ActiveObjects.Add((T)mineral);
+        Spawned?.Invoke((T)mineral);
     }
 
     private void OnRequestRelease(Spawnable spawnable)

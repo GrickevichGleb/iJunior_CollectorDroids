@@ -7,22 +7,31 @@ public class MineralSpawner : Spawner<Mineral>
 {
     [SerializeField] private float _spawnInterval = 3f;
     [SerializeField] private List<SpawnArea> _spawnAreas;
-    
+
     private bool _isSpawning = true;
     private Coroutine _spawningMineralsCoroutine;
 
+    private SpawnArea _spawnArea;
     private Vector3 _spawnPosition;
+    private int _spawnPositionIndex;
     
     private void Start()
     {
         _spawningMineralsCoroutine = StartCoroutine(SpawnMineralsCoroutine(_spawnInterval));
     }
 
-    protected override void ActionOnGet(Spawnable spawnable)
+    public List<Mineral> GetActiveObjectsList()
     {
-        base.ActionOnGet(spawnable);
+        return ActiveObjects;
+    }
 
-        spawnable.transform.position = _spawnPosition;
+    protected override void ActionOnGet(Mineral mineral)
+    {
+        base.ActionOnGet(mineral);
+
+        mineral.Initialize( _spawnArea, _spawnPositionIndex, _spawnPosition);
+        
+        mineral.Picked += OnPicked;
     }
 
     private IEnumerator SpawnMineralsCoroutine(float interval)
@@ -39,7 +48,9 @@ public class MineralSpawner : Spawner<Mineral>
     
     private void SpawnMineral()
     {
-        if (GetRandomSpawnArea().TryGetPoint(out _spawnPosition))
+        _spawnArea = GetRandomSpawnArea();
+        
+        if (_spawnArea.TryGetPoint(out _spawnPosition, out _spawnPositionIndex))
             Pool.Get();
         else
             Debug.Log("No spawn points available");
@@ -50,5 +61,11 @@ public class MineralSpawner : Spawner<Mineral>
         int index = UtilsRandom.GetRandomNumber(0, _spawnAreas.Count-1);
 
         return _spawnAreas[index];
+    }
+
+    private void OnPicked(Mineral mineral)
+    {
+        mineral.Picked -= OnPicked;
+        mineral.SpawnArea.SetPositionAsAvailable(mineral.SpawnPositionIndex);
     }
 }

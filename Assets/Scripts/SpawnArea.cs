@@ -20,6 +20,7 @@ public class SpawnArea : MonoBehaviour
     private HashSet<int> _takenPointsIndexes = new HashSet<int>();
 
     private BoxCollider _boxCollider;
+    
     private void Awake()
     {
         _boxCollider = GetComponent<BoxCollider>();
@@ -28,9 +29,10 @@ public class SpawnArea : MonoBehaviour
         InitializePositionsStatus();
     }
     
-    public bool TryGetPoint(out Vector3 spawnPoint)
+    public bool TryGetPoint(out Vector3 spawnPoint, out int spawnPointIndex)
     {
         spawnPoint = Vector3.zero;
+        spawnPointIndex = 0;
 
         int[] availablePoints = GetAvailablePositionsIndexes();
 
@@ -41,9 +43,15 @@ public class SpawnArea : MonoBehaviour
         int positionIndex = availablePoints[randomIndex];
 
         spawnPoint = _allSpawnPositions[positionIndex];
+        spawnPointIndex = positionIndex;
         _positionsStatus[positionIndex] = PositionTaken;
         
         return true;
+    }
+
+    public void SetPositionAsAvailable(int spawnPositionIndex)
+    {
+        _positionsStatus[spawnPositionIndex] = PositionAvailable;
     }
 
     private void GetAllSpawnPositions()
