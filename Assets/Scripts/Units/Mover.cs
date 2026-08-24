@@ -6,7 +6,7 @@ using UnityEngine.AI;
 
 public class Mover : MonoBehaviour
 {
-    private const float FloatMarginError = 0.01f;
+    private const float ReachDistance = 0.3f;
     private const float RaycastDistance = 15f;
     
     private static readonly Vector3 RaycastHeightVector = new Vector3(0f, 10f, 0f);
@@ -84,7 +84,7 @@ public class Mover : MonoBehaviour
     
     private bool HasReachedDestination()
     {
-        if (_navMeshAgent.remainingDistance <= Mathf.Pow(FloatMarginError, 2))
+        if (_navMeshAgent.remainingDistance <= ReachDistance)
             return true;
 
         return false;

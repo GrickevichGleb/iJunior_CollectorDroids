@@ -58,23 +58,4 @@ public class MineralPicker : MonoBehaviour
         return false;
     }
 
-    // private void OnTriggerEnter(Collider other)
-    // {
-    //     if (other.TryGetComponent(out Mineral mineral) && mineral == _pickTarget)
-    //     {
-    //         if (mineral.IsPickable == false)
-    //             return;
-    //         
-    //         _pickedMineral = mineral.Pick(_carryPosition);
-    //         PickedMineral?.Invoke();
-    //
-    //         return;
-    //     }
-    //
-    //     if (other.TryGetComponent(out DroidBase droidBase) && _pickedMineral != null)
-    //     {
-    //         droidBase.CollectMineral(_pickedMineral);
-    //     }
-    // }
-    
 }

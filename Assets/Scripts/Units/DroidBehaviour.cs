@@ -30,7 +30,6 @@ public class DroidBehaviour : MonoBehaviour
 
         if (_droid.IsLoaded == true)
         {
-            Debug.Log("Move to unload");
             MoveTo(_droid.DroidBase.UnloadPoint.position);
         }
     }

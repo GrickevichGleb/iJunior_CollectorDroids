@@ -1,13 +1,15 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
-public class MineralSpawner : Spawner<Mineral>
+public class MineralSpawner : Spawner<Mineral>, IMineralProvider
 {
     [SerializeField] private float _spawnInterval = 3f;
     [SerializeField] private List<SpawnArea> _spawnAreas;
-
+    [SerializeField] private LayerMask _mineralsLM;
+    
     private bool _isSpawning = true;
     private Coroutine _spawningMineralsCoroutine;
 
@@ -20,9 +22,21 @@ public class MineralSpawner : Spawner<Mineral>
         _spawningMineralsCoroutine = StartCoroutine(SpawnMineralsCoroutine(_spawnInterval));
     }
 
-    public List<Mineral> GetActiveObjectsList()
+    public List<Mineral> GetAvailableMinerals(Vector3 areaCenter, float areaSize)
     {
-        return ActiveObjects;
+        List<Mineral> availableMinerals = new List<Mineral>();
+        Vector3 halfExtents = new Vector3(areaSize, areaSize, areaSize) / 2f;
+
+        Collider[] colliders = 
+            Physics.OverlapBox(areaCenter, halfExtents, quaternion.identity, _mineralsLM);
+  
+        foreach (var mineralCollider in colliders)
+        {
+            if(mineralCollider.TryGetComponent(out Mineral mineral))
+                availableMinerals.Add(mineral);
+        }
+        
+        return availableMinerals;
     }
 
     protected override void ActionOnGet(Mineral mineral)
@@ -52,8 +66,6 @@ public class MineralSpawner : Spawner<Mineral>
         
         if (_spawnArea.TryGetPoint(out _spawnPosition, out _spawnPositionIndex))
             Pool.Get();
-        else
-            Debug.Log("No spawn points available");
     }
 
     private SpawnArea GetRandomSpawnArea()

@@ -10,24 +10,22 @@ public class DroidBase : MonoBehaviour
     
     [SerializeField] private List<Droid> _droids;
     [SerializeField] private MineralSpawner _mineralSpawner;
-
-    [SerializeField] private Vector3 _scanAreaRadius = new Vector3(20f, 2f, 20f);
+    [SerializeField] private MineralManager _mineralManager;
+    
+    [SerializeField] private float _scanAreaSize = 30f;
 
     [SerializeField] private Transform _unloadPoint;
 
+    private IMineralProvider _mineralProvider;
     private MineralCounter _mineralCounter;
     
     private bool _isScanning = true;
-
-    private List<Mineral> _allMinerals = new List<Mineral>();
-    private List<Mineral> _mineralsInProcess = new List<Mineral>();
     
-    private Queue<Mineral> _mineralsAwaitProcess = new Queue<Mineral>();
-
     public Transform UnloadPoint => _unloadPoint;
     
     private void Start()
     {
+        _mineralProvider = _mineralSpawner.GetComponent<IMineralProvider>();
         _mineralCounter = GetComponent<MineralCounter>();
         
         SetupAvailableDroids();
@@ -40,6 +38,7 @@ public class DroidBase : MonoBehaviour
         mineral.Collect();
         
         _mineralCounter.AddMinerals();
+        _mineralManager.ReportCollectedMineral(mineral);
     }
 
     private IEnumerator ScanAvailableResourcesCoroutine()
@@ -50,17 +49,8 @@ public class DroidBase : MonoBehaviour
         {
             yield return delay;
 
-            _allMinerals = _mineralSpawner.GetActiveObjectsList();
-
-            _mineralsAwaitProcess.Clear();
-            
-            foreach (var mineral in _allMinerals)
-            {
-                if(_mineralsInProcess.Contains(mineral))
-                    continue;
-                
-                _mineralsAwaitProcess.Enqueue(mineral);
-            }
+            List<Mineral> allMinerals = _mineralProvider.GetAvailableMinerals(transform.position, _scanAreaSize);
+            _mineralManager.ReportAvailableMinerals(allMinerals);
             
             AssignTasks();
         }
@@ -76,20 +66,14 @@ public class DroidBase : MonoBehaviour
 
     private void AssignTasks()
     {
-        if(_mineralsAwaitProcess.Count == 0)
-            return;
-
         foreach (var droid in _droids)
         {
             if(droid.HasTask == true)
                 continue;
 
-            Mineral mineral = _mineralsAwaitProcess.Dequeue();
-            _mineralsInProcess.Add(mineral);
-            
-            droid.SetPickTarget(mineral);
-            
-            if (_mineralsAwaitProcess.Count == 0)
+            if (_mineralManager.TryGetUnprocessedMinerals(out Mineral mineral))
+                droid.SetPickTarget(mineral);
+            else
                 return;
         }
     }

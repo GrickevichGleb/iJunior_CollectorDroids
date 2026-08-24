@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8207092442687340873}
   - component: {fileID: 8068429770012905908}
   - component: {fileID: 8820849015862760252}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 6497318298164535719}
   - component: {fileID: 396495431555500065}
   - component: {fileID: 730430008820218307}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -177,7 +177,7 @@ GameObject:
   - component: {fileID: 7927604612393011996}
   - component: {fileID: 5645991253113447898}
   - component: {fileID: 5482992658128393648}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -260,7 +260,7 @@ GameObject:
   - component: {fileID: 8990040783472743202}
   - component: {fileID: 2833043476714344083}
   - component: {fileID: 5350242848179329056}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -343,7 +343,7 @@ GameObject:
   - component: {fileID: 1655513027755337935}
   - component: {fileID: 4366738790630148424}
   - component: {fileID: 1210539617760482456}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -425,9 +425,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1429694546824141661}
   - component: {fileID: 2531271284397605309}
-  - component: {fileID: 4722205175348351241}
   - component: {fileID: 2767564573598381394}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: MineralGreen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -471,22 +470,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.3, y: 0.5, z: 0.3}
   m_Center: {x: 0, y: 0.25, z: 0}
---- !u!208 &4722205175348351241
-NavMeshObstacle:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4949173588552635822}
-  m_Enabled: 0
-  serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.15, y: 0.25, z: 0.15}
-  m_MoveThreshold: 0.1
-  m_Carve: 0
-  m_CarveOnlyStationary: 1
-  m_Center: {x: 0, y: 0.25, z: 0}
-  m_TimeToStationary: 0.5
 --- !u!114 &2767564573598381394
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -511,7 +494,7 @@ GameObject:
   - component: {fileID: 2435343660979855454}
   - component: {fileID: 977436838634388790}
   - component: {fileID: 289018656179858145}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -592,7 +575,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7899156841294388200}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -632,6 +632,9 @@ MonoBehaviour:
   _spawnInterval: 2
   _spawnAreas:
   - {fileID: 1562675614}
+  _mineralsLM:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!1001 &745849987
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1208,6 +1211,51 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &1951278926
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1951278928}
+  - component: {fileID: 1951278927}
+  m_Layer: 0
+  m_Name: MineralManger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1951278927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1951278926}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 221829dce9ccc4222b79e8d3f02934ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _mineralSpawner: {fileID: 665154939}
+--- !u!4 &1951278928
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1951278926}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2102691113
 GameObject:
   m_ObjectHideFlags: 0
@@ -1568,6 +1616,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5878573690805638506, guid: df48688c2ec88493997fc4159041476e,
         type: 3}
+      propertyPath: _mineralManager
+      value: 
+      objectReference: {fileID: 1951278927}
+    - target: {fileID: 5878573690805638506, guid: df48688c2ec88493997fc4159041476e,
+        type: 3}
       propertyPath: _mineralSpawner
       value: 
       objectReference: {fileID: 665154939}
@@ -1623,4 +1676,5 @@ SceneRoots:
   - {fileID: 3919276698302182397}
   - {fileID: 2339802099408610385}
   - {fileID: 665154938}
+  - {fileID: 1951278928}
   - {fileID: 368072116}
