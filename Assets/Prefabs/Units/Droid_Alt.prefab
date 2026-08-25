@@ -196,8 +196,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7ea309e016594c52b2fc685a0784c09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rotationSpeed: 180
-  _moveSpeed: 2
+  _rotationSpeed: 240
+  _moveSpeed: 3
 --- !u!114 &6156414992036969635
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -223,7 +223,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b76eaf8f51034e95b0bc56c09e89fc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _pickSpeed: 2
+  _pickSpeed: 3
 --- !u!1 &5710031040590576435
 GameObject:
   m_ObjectHideFlags: 0
