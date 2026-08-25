@@ -8,7 +8,7 @@ public class DroidBase : MonoBehaviour
 {
     [SerializeField] private float _scanInterval = 3f;
     
-    [SerializeField] private List<Droid> _droids;
+    [SerializeField] private List<DroidAlt> _droids;
     [SerializeField] private MineralSpawner _mineralSpawner;
     [SerializeField] private MineralManager _mineralManager;
     
@@ -72,7 +72,7 @@ public class DroidBase : MonoBehaviour
                 continue;
 
             if (_mineralManager.TryGetUnprocessedMinerals(out Mineral mineral))
-                droid.SetPickTarget(mineral);
+                droid.SetTask(mineral);
             else
                 return;
         }

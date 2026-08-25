@@ -9,11 +9,14 @@ public class MineralPicker : MonoBehaviour
 
     [SerializeField] private Transform _carryPosition;
 
+    private DroidAnimator _droidAnimator;
     private Mineral _pickedMineral;
     
     public event Action<Mineral> PickedMineral;
     public event Action UnloadedMineral;
-    
+
+
+
     public bool TryPickMineral(Mineral pickTarget)
     {
         if (_pickedMineral != null)
