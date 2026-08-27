@@ -164,7 +164,7 @@ public class DroidBase : Spawnable
             if(droid.HasTask == true)
                 continue;
 
-            if (_isFlagSet)
+            if (_isFlagSet && _droids.Count > 1)
             {
                 if (_mineralCounter.TrySpend(_droidBaseCost))
                 {
