@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Droid : MonoBehaviour
+public class DroidObs : MonoBehaviour
 {
-    private Mover _mover;
-    private MineralPicker _mineralPicker;
+    private MoverObs _moverObs;
+    private MineralPickerObs _mineralPickerObs;
     
     public DroidBase DroidBase {get; private set;}
 
@@ -19,8 +19,8 @@ public class Droid : MonoBehaviour
     
     private void Awake()
     {
-        _mover = GetComponent<Mover>();
-        _mineralPicker = GetComponent<MineralPicker>();
+        _moverObs = GetComponent<MoverObs>();
+        _mineralPickerObs = GetComponent<MineralPickerObs>();
 
         IdlePosition = transform.position;
     }
@@ -35,13 +35,13 @@ public class Droid : MonoBehaviour
         HasTask = true;
         PickTarget = pickTarget;
         
-        _mineralPicker.PickedMineral += OnPickedMineral;
+        _mineralPickerObs.PickedMineral += OnPickedMineral;
     }
 
     private void OnPickedMineral(Mineral mineral)
     {
-        _mineralPicker.PickedMineral -= OnPickedMineral;
-        _mineralPicker.UnloadedMineral += OnUnloadedMineral;
+        _mineralPickerObs.PickedMineral -= OnPickedMineral;
+        _mineralPickerObs.UnloadedMineral += OnUnloadedMineral;
 
         PickTarget = null;
         IsLoaded = true;
@@ -49,7 +49,7 @@ public class Droid : MonoBehaviour
 
     private void OnUnloadedMineral()
     {
-        _mineralPicker.UnloadedMineral -= OnUnloadedMineral;
+        _mineralPickerObs.UnloadedMineral -= OnUnloadedMineral;
 
         IsLoaded = false;
         HasTask = false;

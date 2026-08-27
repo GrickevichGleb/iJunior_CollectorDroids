@@ -15,4 +15,15 @@ public class MineralCounter : MonoBehaviour
         
         CounterUpdated?.Invoke(_mineralCount);
     }
+
+    public bool TrySpend(int amount)
+    {
+        if (_mineralCount < amount)
+            return false;
+
+        _mineralCount -= amount;
+        CounterUpdated?.Invoke(_mineralCount);
+        
+        return true;
+    }
 }

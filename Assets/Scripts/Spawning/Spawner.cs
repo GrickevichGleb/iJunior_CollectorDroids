@@ -42,7 +42,7 @@ public class Spawner<T> : MonoBehaviour where T : Spawnable
         Spawned?.Invoke((T)mineral);
     }
 
-    private void OnRequestRelease(Spawnable spawnable)
+    protected void OnRequestRelease(Spawnable spawnable)
     {
         ActiveObjects.Remove((T)spawnable);
         spawnable.RequestRelease -= OnRequestRelease;

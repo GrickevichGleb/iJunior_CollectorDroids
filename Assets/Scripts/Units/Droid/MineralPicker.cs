@@ -3,16 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MineralPickerAlt : MonoBehaviour
+public class MineralPicker : MonoBehaviour
 {
     [SerializeField] private Transform _carryPoint;
     
-    private DroidAlt _droid;
+    private Droid _droid;
     private DroidAnimator _droidAnimator;
 
     private void Awake()
     {
-        _droid = GetComponent<DroidAlt>();
+        _droid = GetComponent<Droid>();
         _droidAnimator = GetComponent<DroidAnimator>();
     }
 

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class MoverAlt : MonoBehaviour
+public class Mover : MonoBehaviour
 {
     [SerializeField] private float _rotationSpeed = 180f;
     [SerializeField] private float _moveSpeed = 2f;

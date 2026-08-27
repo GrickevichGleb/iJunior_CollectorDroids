@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Mover : MonoBehaviour
+public class MoverObs : MonoBehaviour
 {
     private const float ReachDistance = 0.3f;
     private const float RaycastDistance = 15f;

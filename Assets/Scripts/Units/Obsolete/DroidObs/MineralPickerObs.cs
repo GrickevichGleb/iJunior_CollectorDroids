@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MineralPicker : MonoBehaviour
+public class MineralPickerObs : MonoBehaviour
 {
     private static readonly Vector3 PickRange = new Vector3(1f, 1f, 1f);
 

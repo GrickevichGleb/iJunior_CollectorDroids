@@ -4,12 +4,11 @@ using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 
-public class MineralSpawner : Spawner<Mineral>, IMineralProvider
+public class MineralSpawner : Spawner<Mineral>
 {
     [SerializeField] private float _spawnInterval = 3f;
     [SerializeField] private List<SpawnArea> _spawnAreas;
-    [SerializeField] private LayerMask _mineralsLM;
-    
+
     private bool _isSpawning = true;
     private Coroutine _spawningMineralsCoroutine;
 
@@ -20,23 +19,6 @@ public class MineralSpawner : Spawner<Mineral>, IMineralProvider
     private void Start()
     {
         _spawningMineralsCoroutine = StartCoroutine(SpawnMineralsCoroutine(_spawnInterval));
-    }
-
-    public List<Mineral> GetAvailableMinerals(Vector3 areaCenter, float areaSize)
-    {
-        List<Mineral> availableMinerals = new List<Mineral>();
-        Vector3 halfExtents = new Vector3(areaSize, areaSize, areaSize) / 2f;
-
-        Collider[] colliders = 
-            Physics.OverlapBox(areaCenter, halfExtents, quaternion.identity, _mineralsLM);
-  
-        foreach (var mineralCollider in colliders)
-        {
-            if(mineralCollider.TryGetComponent(out Mineral mineral))
-                availableMinerals.Add(mineral);
-        }
-        
-        return availableMinerals;
     }
 
     protected override void ActionOnGet(Mineral mineral)
