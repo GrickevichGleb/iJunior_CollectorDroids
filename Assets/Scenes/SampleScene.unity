@@ -789,7 +789,7 @@ GameObject:
   - component: {fileID: 1421170818}
   - component: {fileID: 1421170819}
   m_Layer: 0
-  m_Name: ColonyManager
+  m_Name: ColonyCenter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -826,7 +826,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bdf8fcda7bfb46128f9fcb8e38f6f98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mineralManager: {fileID: 1951278927}
+  mineralTracker: {fileID: 1951278927}
   _droidSpawner: {fileID: 1363360774}
   _droidBaseSpawner: {fileID: 1699970026}
 --- !u!1 &1562104968
@@ -1169,7 +1169,7 @@ GameObject:
   - component: {fileID: 1951278928}
   - component: {fileID: 1951278927}
   m_Layer: 0
-  m_Name: MineralManger
+  m_Name: MineralTracker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1351,24 +1351,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5878573690805638506, guid: df48688c2ec88493997fc4159041476e,
         type: 3}
-      propertyPath: _droidSpawner
-      value: 
-      objectReference: {fileID: 1363360774}
-    - target: {fileID: 5878573690805638506, guid: df48688c2ec88493997fc4159041476e,
-        type: 3}
-      propertyPath: _colonyManager
+      propertyPath: colonyCenter
       value: 
       objectReference: {fileID: 1421170819}
     - target: {fileID: 5878573690805638506, guid: df48688c2ec88493997fc4159041476e,
         type: 3}
-      propertyPath: _mineralManager
+      propertyPath: _droidSpawner
       value: 
-      objectReference: {fileID: 1951278927}
-    - target: {fileID: 5878573690805638506, guid: df48688c2ec88493997fc4159041476e,
-        type: 3}
-      propertyPath: _droidBaseSpawner
-      value: 
-      objectReference: {fileID: 1699970026}
+      objectReference: {fileID: 1363360774}
     - target: {fileID: 5878573690805638506, guid: df48688c2ec88493997fc4159041476e,
         type: 3}
       propertyPath: _droids.Array.data[0]
@@ -1487,12 +1477,12 @@ SceneRoots:
   - {fileID: 410087041}
   - {fileID: 832575519}
   - {fileID: 1572174688}
+  - {fileID: 1421170818}
+  - {fileID: 3919276698302182397}
   - {fileID: 8156633559122905538}
   - {fileID: 1816427129}
   - {fileID: 546016635}
-  - {fileID: 3919276698302182397}
   - {fileID: 2339802099408610385}
-  - {fileID: 1421170818}
   - {fileID: 665154938}
   - {fileID: 368072116}
   - {fileID: 406967929}

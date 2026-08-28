@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MineralManager : MonoBehaviour
+public class MineralTracker : MonoBehaviour
 {
     [SerializeField] private MineralSpawner _mineralSpawner;
 

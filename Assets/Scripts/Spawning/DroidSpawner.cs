@@ -7,22 +7,17 @@ public class DroidSpawner : Spawner<Droid>
     private DroidBase _spawnBase;
     private Transform _spawnPoint;
 
-    private Droid _spawnedDroid;
-    
     protected override void ActionOnGet(Droid droid)
     {
         base.ActionOnGet(droid);
         droid.Initialize(_spawnPoint.position);
-        _spawnedDroid = droid;
     }
 
     public bool TrySpawnDroid(DroidBase droidBase, out Droid droid)
     {
         _spawnPoint = droidBase.UnloadPoint;
 
-        Pool.Get();
-
-        droid = _spawnedDroid;
+        droid = Pool.Get();
         
         return true;
     }

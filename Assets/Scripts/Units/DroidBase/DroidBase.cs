@@ -12,42 +12,46 @@ public class DroidBase : Spawnable
 
     [SerializeField] private List<Droid> _droids;
 
-    [SerializeField] private ColonyManager _colonyManager;
+    [SerializeField] private ColonyCenter colonyCenter;
     
-    [SerializeField] private MineralManager _mineralManager;
     [SerializeField] private DroidSpawner _droidSpawner;
-    [SerializeField] private DroidBaseSpawner _droidBaseSpawner;
-    
+ 
     [SerializeField] private Transform _unloadPoint;
-    [SerializeField] private FlagMark _flag;
     
+    private MineralTracker _mineralTracker;
     private MineralCounter _mineralCounter;
     private MineralScanner _mineralScanner;
+
+    private BuildBaseMarker _buildBaseMarker;
     
     private bool _isScanning = true;
-    private bool _isFlagSet = false;
 
     private Coroutine _scanning;
     
     public Transform UnloadPoint => _unloadPoint;
 
-    public ColonyManager ColonyManager => _colonyManager;
+    public ColonyCenter ColonyCenter => colonyCenter;
 
     public event Action NewBaseConstructionStarted;
-    
-    private void Start()
+
+    private void Awake()
     {
         _mineralScanner = GetComponent<MineralScanner>();
         _mineralCounter = GetComponent<MineralCounter>();
-        
+
+        _buildBaseMarker = GetComponent<BuildBaseMarker>();
+    }
+
+    private void Start()
+    {
         StartWork();
     }
 
-    public void Initialize(Transform initialTransform, ColonyManager colonyManager)
+    public void Initialize(Transform initialTransform, ColonyCenter colonyCenter)
     {
         transform.SetPositionAndRotation(initialTransform.position, initialTransform.rotation);
 
-        _colonyManager = colonyManager;
+        this.colonyCenter = colonyCenter;
         
         StartWork();
     }
@@ -64,52 +68,30 @@ public class DroidBase : Spawnable
         mineral.Collect();
         
         _mineralCounter.AddMinerals();
-        _mineralManager.ReportCollectedMineral(mineral);
+        _mineralTracker.ReportCollectedMineral(mineral);
         
-        if(_isFlagSet)
+        if(_buildBaseMarker.IsFlagSet && _droids.Count > 1)
             return;
         
         if(_mineralCounter.TrySpend(_droidCost))
             CreateDroid();
     }
 
-    public void SetFlag(Vector3 position)
-    {
-        if(_flag.gameObject.activeInHierarchy == false)
-            _flag.gameObject.SetActive(true);
-        
-        Vector3 towardsLevelCenter = Vector3.zero - position;
-        Quaternion toLevelCenter = quaternion.LookRotation(towardsLevelCenter, Vector3.up);
-        
-        _flag.transform.SetPositionAndRotation(position, toLevelCenter);
-
-        _isFlagSet = true;
-    }
-
-    private void ResetFlag()
-    {
-        _flag.gameObject.SetActive(false);
-        
-        _flag.transform.SetPositionAndRotation(transform.position, transform.rotation);
-        _isFlagSet = false;
-    }
-    
     public override void Reset()
     {
         if(_scanning != null)
             StopCoroutine(ScanAvailableResourcesCoroutine());
         
-        _flag.gameObject.SetActive(false);
+        _buildBaseMarker.ResetMark();
         
         _droids.Clear();
     }
 
     private void StartWork()
     {
-        _mineralManager = _colonyManager.MineralManager;
-        _droidSpawner = _colonyManager.DroidSpawner;
-        _droidBaseSpawner = _colonyManager.DroidBaseSpawner;
-        
+        _mineralTracker = colonyCenter.MineralTracker;
+        _droidSpawner = colonyCenter.DroidSpawner;
+
         SetupAvailableDroids();
 
         _scanning = StartCoroutine(ScanAvailableResourcesCoroutine());
@@ -123,11 +105,9 @@ public class DroidBase : Spawnable
 
     private void BuildNewBase(Droid droid)
     {
-        _isFlagSet = false;
-        
         NewBaseConstructionStarted?.Invoke();
         
-        droid.SetTaskBuildBase(_flag.transform);
+        droid.SetTaskBuildBase(_buildBaseMarker.MarkTransform);
 
         droid.BaseBuilt += OnBaseBuilt;
     }
@@ -141,7 +121,7 @@ public class DroidBase : Spawnable
             yield return delay;
             
             List<Mineral> allMinerals = _mineralScanner.GetAvailableMinerals();
-            _mineralManager.ReportAvailableMinerals(allMinerals);
+            _mineralTracker.ReportAvailableMinerals(allMinerals);
             
             AssignTasks();
         }
@@ -163,8 +143,8 @@ public class DroidBase : Spawnable
         {
             if(droid.HasTask == true)
                 continue;
-
-            if (_isFlagSet && _droids.Count > 1)
+            
+            if (_buildBaseMarker.IsFlagSet && _droids.Count > 1)
             {
                 if (_mineralCounter.TrySpend(_droidBaseCost))
                 {
@@ -173,8 +153,8 @@ public class DroidBase : Spawnable
                 }
             }
             
-            if (_mineralManager.TryGetUnprocessedMinerals(out Mineral mineral))
-                droid.SetTask(mineral);
+            if (_mineralTracker.TryGetUnprocessedMinerals(out Mineral mineral))
+                droid.SetTaskCollectMineral(mineral);
             else
                 return;
         }
@@ -185,6 +165,6 @@ public class DroidBase : Spawnable
         droid.BaseBuilt -= OnBaseBuilt;
 
         _droids.Remove(droid);
-        ResetFlag();
+        _buildBaseMarker.ResetMark();
     }
 }

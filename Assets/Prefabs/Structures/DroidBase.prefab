@@ -711,6 +711,7 @@ GameObject:
   - component: {fileID: 3389693023144140383}
   - component: {fileID: 2254190506392689477}
   - component: {fileID: 5878573690805638506}
+  - component: {fileID: 173102835077742660}
   - component: {fileID: 4295618310114401692}
   - component: {fileID: 7314149884700621987}
   m_Layer: 0
@@ -773,14 +774,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _scanInterval: 0.5
+  _droidCost: 3
+  _droidBaseCost: 5
   _droids:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  _mineralManager: {fileID: 0}
+  colonyCenter: {fileID: 0}
   _droidSpawner: {fileID: 0}
   _unloadPoint: {fileID: 6714039743609554777}
-  _flag: {fileID: 5593369607298462152}
+--- !u!114 &173102835077742660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7214543916399547043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e3ae8c9e496f418089d151107e1152e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _mark: {fileID: 5593369607298462152}
 --- !u!114 &4295618310114401692
 MonoBehaviour:
   m_ObjectHideFlags: 0

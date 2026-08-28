@@ -38,7 +38,7 @@ public class UnitControll : MonoBehaviour
             Vector3 origin = hit.point + HightVectorRaycast;
             
             if(Physics.Raycast(origin, Vector3.down, MaxDistanceRaycast, _groundLM))
-                _selectedBase.SetFlag(hit.point);
+                _selectedBase.gameObject.GetComponent<BuildBaseMarker>().SetMark(hit.point);
         }
             
     }

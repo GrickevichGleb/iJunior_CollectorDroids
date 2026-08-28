@@ -7,23 +7,20 @@ public class DroidBaseSpawner : Spawner<DroidBase>
     private Vector3 _spawnPoint;
 
     private Transform _initialTransform;
-    private ColonyManager _colonyManager;
-    private DroidBase _spawnedBase;
+    private ColonyCenter _colonyCenter;
 
-    public void SpawnBase(Droid droid, Transform initialTransform, ColonyManager colonyManager)
+    public void SpawnBase(Droid droid, Transform initialTransform, ColonyCenter colonyCenter)
     {
         _initialTransform = initialTransform;
-        _colonyManager = colonyManager;
+        _colonyCenter = colonyCenter;
         
-        Pool.Get();
-        _spawnedBase.RegisterDroid(droid);
+        DroidBase spawnedBase = Pool.Get();
+        spawnedBase.RegisterDroid(droid);
     }
 
     protected override void ActionOnGet(DroidBase droidBase)
     {
         base.ActionOnGet(droidBase);
-        droidBase.Initialize(_initialTransform, _colonyManager);
-
-        _spawnedBase = droidBase;
+        droidBase.Initialize(_initialTransform, _colonyCenter);
     }
 }

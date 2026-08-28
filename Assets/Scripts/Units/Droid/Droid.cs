@@ -9,7 +9,7 @@ public class Droid : Spawnable
     private MineralPicker _mineralPicker;
     private Coroutine _currentTaskCoroutine;
     
-    private ColonyManager _colonyManager;
+    private ColonyCenter _colonyCenter;
 
     public DroidBase DroidBase {get; private set;}
     public Vector3 IdlePosition { get; private set; }
@@ -38,10 +38,10 @@ public class Droid : Spawnable
     public void AssignBase(DroidBase droidBase)
     {
         DroidBase = droidBase;
-        _colonyManager = DroidBase.ColonyManager;
+        _colonyCenter = DroidBase.ColonyCenter;
     }
 
-    public void SetTask(Mineral mineral)
+    public void SetTaskCollectMineral(Mineral mineral)
     {
         if(_currentTaskCoroutine != null)
             StopCoroutine(_currentTaskCoroutine);
@@ -84,7 +84,7 @@ public class Droid : Spawnable
     {
         yield return _mover.MoveToPosition(FlagTransform.position);
         
-        DroidBase.ColonyManager.DroidBaseSpawner.SpawnBase(this, FlagTransform, DroidBase.ColonyManager);
+        DroidBase.ColonyCenter.DroidBaseSpawner.SpawnBase(this, FlagTransform, DroidBase.ColonyCenter);
         IdlePosition = DroidBase.UnloadPoint.position;
         
         BaseBuilt?.Invoke(this);
